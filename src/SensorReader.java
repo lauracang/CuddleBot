@@ -32,7 +32,7 @@ public class SensorReader implements SerialPortEventListener {
 																				// X
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
-			"COM7", // Windows
+			"COM3", // Windows
 	};
 	/**
 	 * A BufferedReader which will be fed by a InputStreamReader converting the
