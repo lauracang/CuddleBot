@@ -89,7 +89,7 @@ public class MainGUI extends JFrame {
  
 		return inputReader;
 	}
-
+	//
 	/**
 	 * Launch the application.
 	 * @throws IOException 
@@ -435,7 +435,7 @@ public class MainGUI extends JFrame {
 						Instances currInstance = null;
 						currInstance = currentWindow.getInstance();
 						//Instance currInstance = new Instance(1.0, currInstance);
-						String rootPath="C:/Users/Brian/Desktop/Laura/Projects/workspace/CuddleBot/"; 
+						String rootPath="C:/Users/Brian/Documents/GitHub/CuddleBot/"; 
 						//QuestionInstanceClassifiy q = new QuestionInstanceClassifiy();
 				      //  double result = q.classify(1.0d, 1, 1);
 				       // System.out.println(result);
@@ -480,8 +480,8 @@ public class MainGUI extends JFrame {
 			
 							
 							DatagramSocket dgSocket = new DatagramSocket();
-							//InetAddress ipAddr = InetAddress.getByName("10.10.10.175");
-							InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
+							InetAddress ipAddr = InetAddress.getByName("10.10.10.1");
+							//InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
 							byte[] bytes = labelPred.getBytes();
 							DatagramPacket dgram = new DatagramPacket(bytes, bytes.length,ipAddr,1234);
 							dgSocket.send(dgram);
