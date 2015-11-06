@@ -475,6 +475,8 @@ public class MainGUI extends JFrame {
 							   //labeled.instance(i).setClassValue(predict);
 							String labelPredDefault = "Collecting ...";
 							String labelPred = classLabels[(int) predict];
+							 //TODO bitHandler.update(labelPred);
+
 							MainGUI.this.gestureLabelPtr.setText(labelPred);
 						//	label.setBounds(701, 234, 500, 500);
 			
