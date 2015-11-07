@@ -5,11 +5,10 @@ public class BitHandler {
 	BitThread bitThread;
 	
 	public BitHandler() {
-		serial = new SerialWrite();  //creates an object of the class
-		serial.initialize();
-		serial.portConnect();
+		
 		behaviours = new BufferQueue(20);
-		(new Thread(new BitThread())).start();		
+		bitThread = new BitThread();
+		new Thread(bitThread).start();		
 	}
 	
 	public void update(String s) {
@@ -17,10 +16,25 @@ public class BitHandler {
 	}
 
 	private class BitThread implements Runnable {
-
+		int count = 0;
 		@Override
 		public void run() {
-			send(180);
+			serial = new SerialWrite();  //creates an object of the class
+			serial.initialize();
+			serial.portConnect();
+			
+			loop(10000);
+			
+			serial.close();
+			System.out.println("done sending fer now");
+		}
+		public void loop(int i) {
+			int j = 0;
+			while (j < i) {
+				j++;
+				send(180);
+			}
+			//TODO 
 		}
 		public void send(short s) {
 			serial.write(s);

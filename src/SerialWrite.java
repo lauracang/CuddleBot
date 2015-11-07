@@ -136,7 +136,7 @@ serialPort.setSerialPortParams(BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBI
     //end of serialEvent method
     
     //closePort method
-    private void close(){
+    public void close(){
         if(serialPort!=null){
             serialPort.close(); //close serial port
         }
