@@ -78,6 +78,8 @@ public class MainGUI extends JFrame {
 	private static JPanel[][] heatMapCells;
 	private JLabel gestureLabelPtr;
 	
+	private BitHandler bitHandler;
+	
 	public static BufferedReader readDataFile(String filename) {
 		BufferedReader inputReader = null;
  
@@ -131,7 +133,8 @@ public class MainGUI extends JFrame {
 		contentPane.add(btnStart);
 		worker = new WorkerRunnable();
 		
-		
+		// Start handling the Bit
+		bitHandler = new BitHandler();
 		
 		// START the collection 
 		btnStart.addActionListener(new ActionListener() {
@@ -475,7 +478,7 @@ public class MainGUI extends JFrame {
 							   //labeled.instance(i).setClassValue(predict);
 							String labelPredDefault = "Collecting ...";
 							String labelPred = classLabels[(int) predict];
-							 //TODO bitHandler.update(labelPred);
+							bitHandler.update(labelPred);
 
 							MainGUI.this.gestureLabelPtr.setText(labelPred);
 						//	label.setBounds(701, 234, 500, 500);

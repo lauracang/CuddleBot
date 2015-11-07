@@ -1,14 +1,20 @@
 import java.io.BufferedReader;                    //BufferedReader makes reading operation efficient
 import java.io.InputStreamReader;         //InputStreamReader decodes a stream of bytes into a character set
 import java.io.OutputStream;          //writes stream of bytes into serial port
+
 import gnu.io.CommPortIdentifier;           
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;            //deals with possible events in serial port (eg: data received)
 import gnu.io.SerialPortEventListener; //listens to the a possible event on serial port and notifies when it does
+
 import java.util.Enumeration;
+
 import gnu.io.PortInUseException;           //all the exceptions.Never mind them for now
+
 import java.io.IOException;
+
 import gnu.io.UnsupportedCommOperationException;
+
 import java.util.TooManyListenersException;
 import java.util.Scanner;                                   //to get user input of name
 
@@ -24,18 +30,28 @@ public class SerialWrite implements SerialPortEventListener {
     Scanner inputName;          //user input name
 
     //method initialize
-    private void initialize(){
+    public void initialize(){
         CommPortIdentifier ports = null;      //to browse through each port identified
         Enumeration portEnum = CommPortIdentifier.getPortIdentifiers(); //store all available ports
+        
+        String PORT_NAME[] = {  
+        		"/dev/tty.usbserial-A700e1oo", // Mac OS X
+        		"/dev/ttyACM0", // Raspberry Pi
+        		"/dev/ttyUSB0", // Linux
+        		"COM10", // Windows
+        };
+        
         while(portEnum.hasMoreElements()){  //browse through available ports
                 ports = (CommPortIdentifier)portEnum.nextElement();
-             //following line checks whether there is the port i am looking for and whether it is serial
-               if(ports.getPortType() == CommPortIdentifier.PORT_SERIAL&&ports.getName().equals("COM10")){ 
-
-                System.out.println("COM port found:COM10");
-                portId = ports;                  //initialize my port
-                break;                                                                                     }
-           
+                //following line checks whether there is the port i am looking for and whether it is serial
+                
+                for(String s : PORT_NAME) {
+                	if (ports.getPortType() == CommPortIdentifier.PORT_SERIAL 
+                			&& ports.getName().equals(s)) { 
+                        System.out.println("COM port found: " + s);
+                        portId = ports; // initialize my port
+                        break;                                                                                     }	
+                }          
             }
        //if serial port am looking for is not found
         if(portId==null){
@@ -49,7 +65,7 @@ public class SerialWrite implements SerialPortEventListener {
     
     //connect method
    
-    private void portConnect(){
+    public void portConnect(){
         //connect to port
         try{
          serialPort = (SerialPort)portId.open(this.getClass().getName(),TIME_OUT);   //down cast the comm port to serial port
@@ -92,7 +108,7 @@ serialPort.setSerialPortParams(BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBI
     //end of portConncet method
     
     //readWrite method
-     public void serialWrite(short b) {
+     public void write(short b) {
     	 try {
 			output.write(b);
 		} catch (IOException e) {
@@ -128,25 +144,25 @@ serialPort.setSerialPortParams(BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBI
         output = null;
     }
     //main method
-    public static void main(String[] args) {
-        SerialWrite myTest = new SerialWrite();  //creates an object of the class
-        myTest.initialize();
-        myTest.portConnect();
-        short b = 0;
-        for(int i = 0; i<100000; i++){
-        	if (i % 10 == 0) {
-        		b = (short)((b+1) % 180);//	
-        	}
-        	myTest.serialWrite(b);
-        	System.out.println(b);
-        }
-      System.out.println("Started");
-       //while(1>0);       //wait till any activity
-       myTest.close(); 
-  
+//    public static void main(String[] args) {
+//        SerialWrite myTest = new SerialWrite();  //creates an object of the class
+//        myTest.initialize();
+//        myTest.portConnect();
+//        short b = 0;
+//        for(int i = 0; i<100000; i++){
+//        	if (i % 10 == 0) {
+//        		b = (short)((b+1) % 180);//	
+//        	}
+//        	myTest.serialWrite(b);
+//        	System.out.println(b);
+//        }
+//      System.out.println("Started");
+//       //while(1>0);       //wait till any activity
+//       myTest.close(); 
+//  
         
        
                                             }
 //end of main method
 // end of  SerialTest class
-}
+//}
