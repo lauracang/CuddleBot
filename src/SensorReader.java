@@ -182,6 +182,7 @@ public class SensorReader implements SerialPortEventListener {
 												// frameBufferA
 						for (int j = 0; j < 10; j++) {
 							for (int k = 0; k < 10; k++) {
+								//if(j==)
 								int byteA = inputA.read();
 								int byteB = inputA.read();
 
@@ -192,9 +193,9 @@ public class SensorReader implements SerialPortEventListener {
 																	// frame
 																	// sum
 									if (pixValn < faker+1) {
-										frameBufferA[j][k] = 0;
+										frameBufferA[k][j] = 0;
 									} else {
-										frameBufferA[j][k] = pixValn - faker;
+										frameBufferA[k][j] = pixValn - faker;
 									}// add to
 																	// frame
 																	// location

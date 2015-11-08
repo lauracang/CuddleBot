@@ -122,10 +122,10 @@ public class WekaPredict {
             // inst_co.setMissing(cluster);
 
             // load classifier from file
-			String rootPath="C:/Users/Brian/Desktop/Laura/Projects/workspace/CuddleBotLocal/"; 
+			String rootPath="C:/Users/Brian/Documents/GitHub/CuddleBot/"; 
 
             //Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
-			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "RFTGL.model");
+			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "morenotouch.model");
             //Classifier rFModel = (Classifier) weka.core.SerializationHelper.read("/CO_J48Model.model");
 
             result = gestureModel.classifyInstance(currInstance);
