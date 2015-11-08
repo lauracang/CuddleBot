@@ -125,7 +125,7 @@ public class WekaPredict {
 			String rootPath="C:/Users/Brian/Documents/GitHub/CuddleBot/"; 
 
             //Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
-			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "morenotouch.model");
+			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "totes.model");
             //Classifier rFModel = (Classifier) weka.core.SerializationHelper.read("/CO_J48Model.model");
 
             result = gestureModel.classifyInstance(currInstance);
