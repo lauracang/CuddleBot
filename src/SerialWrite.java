@@ -55,7 +55,7 @@ public class SerialWrite implements SerialPortEventListener {
             }
        //if serial port am looking for is not found
         if(portId==null){
-            System.out.println("COM port not found");
+            System.out.println("COM likely 10 port not found");
             System.exit(1);
         }
         
