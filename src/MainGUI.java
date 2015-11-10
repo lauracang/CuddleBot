@@ -468,7 +468,7 @@ public class MainGUI extends JFrame {
 							//trainData.setClassIndex(c);
 							//trainData.add(currInstance.instance(predictInstance));
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "rFnonewotickle.model");
-							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "notickle.model");
+							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "slidingnotick.model");
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "RFTGL.model");
 
 							Instances unlabeled = new Instances(currInstance);
