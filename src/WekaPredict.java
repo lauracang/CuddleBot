@@ -54,10 +54,10 @@ public class WekaPredict {
             //Attribute carbonmonoxide = new Attribute("co");
 
             ArrayList<String> classVal = new ArrayList<String>();
-            classVal.add("notouch");
             classVal.add("constant");
-            classVal.add("rub");
+            classVal.add("notouch");
             classVal.add("pat");
+            classVal.add("rub");
             classVal.add("scratch");
             classVal.add("stroke");
             classVal.add("tickle");
@@ -125,7 +125,7 @@ public class WekaPredict {
 			String rootPath="C:/Users/Brian/Documents/GitHub/CuddleBot/"; 
 
             //Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
-			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "mahnamahna.model");
+			Classifier gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "moving1.model");
             //Classifier rFModel = (Classifier) weka.core.SerializationHelper.read("/CO_J48Model.model");
 
             result = gestureModel.classifyInstance(currInstance);

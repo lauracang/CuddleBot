@@ -34,7 +34,7 @@ public class BitHandler {
 			serial = new SerialWrite();  //creates an object of the class
 			serial.initialize();
 			serial.portConnect();
-			
+		//	System.out.println("this ere's printing");
 			loop(-1);
 			
 			serial.close();
@@ -53,7 +53,7 @@ public class BitHandler {
 						e.printStackTrace();
 					}
 					t = t + hz;
-					System.out.println(sine());
+					//System.out.println(sine());
 				}
 			}
 			while (j < i) {
@@ -71,7 +71,7 @@ public class BitHandler {
 		
 	}
 	// for testing
-	public static void main(String args[]) {
-        BitHandler b = new BitHandler();
-    }
+//	public static void main(String args[]) {
+//        BitHandler b = new BitHandler();
+//    }
 }

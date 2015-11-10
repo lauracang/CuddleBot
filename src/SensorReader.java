@@ -188,15 +188,16 @@ public class SensorReader implements SerialPortEventListener {
 
 								pixVal = (byteA + byteB * 256);
 								if (pixVal <= 1023 && pixVal >= 0) {
+									//long pixValn = 1023 - pixVal;
 									long pixValn = 1023 - pixVal;
 									framesum = framesum + pixValn; // add to
 																	// frame
 																	// sum
-									if (pixValn < faker+1) {
-										frameBufferA[k][j] = 0;
-									} else {
-										frameBufferA[k][j] = pixValn - faker;
-									}// add to
+//									if (pixValn < faker+1) {
+//										frameBufferA[k][j] = 0;
+//									} else {
+//										frameBufferA[k][j] = pixValn - faker;
+//									}// add to
 																	// frame
 																	// location
 									// if (pixValn > 500) {

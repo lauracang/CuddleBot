@@ -449,8 +449,8 @@ public class MainGUI extends JFrame {
 						int predictInstance = 0;
 						Classifier gestureModel;
 						String[] classLabels = new String[7];
-						classLabels[0]="notouch";
-						classLabels[1]="constant";
+						classLabels[0]="constant";
+						classLabels[1]="notouch";
 						classLabels[2]="rub";
 						classLabels[3]="pat";
 						classLabels[4]="scratch";
@@ -463,8 +463,9 @@ public class MainGUI extends JFrame {
 							//trainData.setClassIndex(cIdx);
 							//trainData.add(currInstance.instance(predictInstance));
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "rFnonewotickle.model");
-							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "mahnamahna.model");
+							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "moving1.model");
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "RFTGL.model");
+							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
 
 							Instances unlabeled = new Instances(currInstance);
 							unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
@@ -472,7 +473,7 @@ public class MainGUI extends JFrame {
 							 double predict = gestureModel.classifyInstance(unlabeled.instance(predictInstance));
 				            //double result = gestureModel.classifyInstance(currInstance.instance(predictInstance));
 							//String prediction=currInstance.classAttribute().value((int)result); 
-							 System.out.println("predict val reads: " + predict);
+							System.out.println("predict val reads: " + predict);
 							System.out.println("The predicted value of instance "+
 							                    Integer.toString(predictInstance)+
 							                    ": "+classLabels[(int)predict ]); 
