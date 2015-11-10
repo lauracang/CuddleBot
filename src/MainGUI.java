@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.io.BufferedReader;
 import java.io.InputStream;
 
@@ -120,6 +121,8 @@ public class MainGUI extends JFrame {
 	 */
 	public MainGUI() throws Exception {
 		
+		bitHandler = new BitHandler();
+		bitHandler.runit();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1052, 648);
@@ -133,15 +136,17 @@ public class MainGUI extends JFrame {
 		contentPane.add(btnStart);
 		worker = new WorkerRunnable();
 		
-		// Start handling the Bit
-		bitHandler = new BitHandler();
-		
+
 		// START the collection 
 		btnStart.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 				
 		    	mainThread = new Thread(worker);
 		    	mainThread.start();
+		    	// Start handling the Bit
+
+				
+
 		    }
 		});
 		
@@ -460,7 +465,7 @@ public class MainGUI extends JFrame {
 						try {
 							//Instances trainData = new Instances(readDataFile(rootPath + "nonenone.arff"));
 							//int cIdx=trainData.numAttributes()-1;
-							//trainData.setClassIndex(cIdx);
+							//trainData.setClassIndex(c);
 							//trainData.add(currInstance.instance(predictInstance));
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "rFnonewotickle.model");
 							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "totes.model");
@@ -480,18 +485,29 @@ public class MainGUI extends JFrame {
 							String labelPredDefault = "Collecting ...";
 							String labelPred = classLabels[(int) predict];
 							bitHandler.update(labelPred);
+							
+							bitHandler.step();
+							
+							try {
+								TimeUnit.MILLISECONDS.sleep(0);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 
 							MainGUI.this.gestureLabelPtr.setText(labelPred);
+							
 						//	label.setBounds(701, 234, 500, 500);
 			
 							
-							DatagramSocket dgSocket = new DatagramSocket();
-							InetAddress ipAddr = InetAddress.getByName("10.10.10.1");
-							//InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
-							byte[] bytes = labelPred.getBytes();
-							DatagramPacket dgram = new DatagramPacket(bytes, bytes.length,ipAddr,1234);
-							dgSocket.send(dgram);
-							dgSocket.close();
+//							DatagramSocket dgSocket = new DatagramSocket();
+//							InetAddress ipAddr = InetAddress.getByName("10.10.10.1");
+//							//InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
+//							byte[] bytes = labelPred.getBytes();
+//							DatagramPacket dgram = new DatagramPacket(bytes, bytes.length,ipAddr,1234);
+//							dgSocket.send(dgram);
+//							dgSocket.close();
 							
 							
 

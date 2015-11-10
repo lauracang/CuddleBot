@@ -17,20 +17,11 @@ public class BitHandler {
 	final int SCRATCH = 4;
 	final int STROKE = 5;
 	final int TICKLE = 6;	
-	
-	String[] classLabels;
-	
+
 	public BitHandler() {
 		behaviours = new BufferQueue(108);
 		bitThread = new BitThread();
-		new Thread(bitThread).start();
-		classLabels[0]="notouch";
-		classLabels[1]="constant";
-		classLabels[2]="rub";
-		classLabels[3]="pat";
-		classLabels[4]="scratch";
-		classLabels[5]="stroke";
-		classLabels[6]="tickle";
+
 	}
 	
 	public void update(String s) {
@@ -74,62 +65,70 @@ public class BitHandler {
 	}
 	
 	public String mostCommonBehaviour() {
-		Integer[] counts = new Integer[7];
-		for (String b : behaviours.queue) {
-			if (b=="notouch") {
-				counts[NOTOUCH] += 1;
-			}
-			else if (b=="constant") {
-				counts[CONSTANT] += 1;
-			}
-			else if (b=="rub") {
-				counts[RUB] += 1;
-			}
-
-			else if (b=="pat") {
-				counts[PAT] += 1;
-			}
-
-			else if (b=="stroke") {
-				counts[STROKE] += 1;
-			}
-
-			else if (b=="tickle") {
-				counts[TICKLE] += 1;
-			}
-
-			else if (b=="scratch") {
-				counts[SCRATCH] += 1;
-			}
-		}
-		int max = 0;
+//		Integer[] counts = new Integer[7];
+//		for (String b : behaviours.queue) {
+//			if (b=="notouch") {
+//				counts[NOTOUCH] += 1;
+//			}
+//			else if (b=="constant") {
+//				counts[CONSTANT] += 1;
+//			}
+//			else if (b=="rub") {
+//				counts[RUB] += 1;
+//			}
+//
+//			else if (b=="pat") {
+//				counts[PAT] += 1;
+//			}
+//
+//			else if (b=="stroke") {
+//				counts[STROKE] += 1;
+//			}
+//
+//			else if (b=="tickle") {
+//				counts[TICKLE] += 1;
+//			}
+//
+//			else if (b=="scratch") {
+//				counts[SCRATCH] += 1;
+//			}
+//		}
+//		int max = 0;
 		String max_b = "notouch";
-		for (int i = 0; i < 7; i++) {
-			if (counts[i] > max) {
-				max = counts[i];
-				max_b = classLabels[i];
-			}
-		}
+//
+//		for (int i = 0; i < 7; i++) {
+//			if (counts[i] > max) {
+//				max = counts[i];
+//				max_b = cclassLabels[i];
+//			}
+//		}
 		return max_b;
 	}
 	
+	public void runit() {
+		bitThread.runit();
+		
+	}
+	public void step() {
+//		System.out.println("Stepping");
+		bitThread.step();
+	}
 	public int sine() {
 		double s = (amp * Math.sin(t*Math.PI)) + offset;
 		int i = (int) s;
 		return i;
 	}
 
-	private class BitThread implements Runnable {
+	private class BitThread {
 		int count = 0;
-		@Override
-		public void run() {
+		
+		public void runit() {
 			serial = new SerialWrite();  //creates an object of the class
 			serial.initialize();
 			serial.portConnect();
+//			serial.close();
+			System.out.println("Don't you worry your little heart Paul...we've connected.");
 			
-			loop(-1);
-			
-			serial.close();
 			System.out.println("done sending fer now");
 		}
 		public void loop(int i) {
@@ -137,6 +136,7 @@ public class BitHandler {
 			if (i < 0) {
 				while(true) {
 					send(sine());
+					
 //					 2 seconds per period
 					try {
 						TimeUnit.MILLISECONDS.sleep(20);
@@ -154,6 +154,15 @@ public class BitHandler {
 				j++;
 				send(180);
 			} 
+		}
+		
+		public void step() {
+			send(sine());
+			System.out.println("Bot is going to " + sine() + " degrees.");
+			t = t + hz;
+			if (t > 10000000) {
+				t = 0;
+			}
 		}
 		public void send(short s) {
 			serial.write(s);
