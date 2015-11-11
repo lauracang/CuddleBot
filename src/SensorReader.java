@@ -86,7 +86,7 @@ public class SensorReader implements SerialPortEventListener {
 		}
 
 		if (portId == null) {
-			System.out.println("Could not find COM port.");
+			System.out.println("Could not find COM 6 port.");
 			return;
 		}
 

@@ -454,8 +454,8 @@ public class MainGUI extends JFrame {
 						int predictInstance = 0;
 						Classifier gestureModel;
 						String[] classLabels = new String[7];
-						classLabels[0]="notouch";
-						classLabels[1]="constant";
+						classLabels[1]="notouch";
+						classLabels[0]="constant";
 						classLabels[2]="rub";
 						classLabels[3]="pat";
 						classLabels[4]="scratch";
@@ -468,7 +468,7 @@ public class MainGUI extends JFrame {
 							//trainData.setClassIndex(c);
 							//trainData.add(currInstance.instance(predictInstance));
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "rFnonewotickle.model");
-							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "totes.model");
+							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "slidingnotick.model");
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "RFTGL.model");
 
 							Instances unlabeled = new Instances(currInstance);
@@ -489,7 +489,7 @@ public class MainGUI extends JFrame {
 							bitHandler.step();
 							
 							try {
-								TimeUnit.MILLISECONDS.sleep(0);
+								TimeUnit.MILLISECONDS.sleep(20);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
