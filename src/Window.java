@@ -110,7 +110,7 @@ public class Window {
 	}
 		
 	public boolean isReady() {
-		System.out.println("There are things in this here window, " + windowList.size() + " of them.");
+	//	System.out.println("There are things in this here window, " + windowList.size() + " of them.");
 		return (windowList.size() == WINDOW_SIZE);
 	}
 	
