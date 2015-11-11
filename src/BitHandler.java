@@ -65,43 +65,67 @@ public class BitHandler {
 	}
 	
 	public String mostCommonBehaviour() {
-//		Integer[] counts = new Integer[7];
-//		for (String b : behaviours.queue) {
-//			if (b=="notouch") {
-//				counts[NOTOUCH] += 1;
-//			}
-//			else if (b=="constant") {
-//				counts[CONSTANT] += 1;
-//			}
-//			else if (b=="rub") {
-//				counts[RUB] += 1;
-//			}
-//
-//			else if (b=="pat") {
-//				counts[PAT] += 1;
-//			}
-//
-//			else if (b=="stroke") {
-//				counts[STROKE] += 1;
-//			}
-//
-//			else if (b=="tickle") {
-//				counts[TICKLE] += 1;
-//			}
-//
-//			else if (b=="scratch") {
-//				counts[SCRATCH] += 1;
-//			}
-//		}
-//		int max = 0;
+		int notouch = 0;
+		int rub = 0;
+		int stroke = 0;
+		int constant = 0;
+		int pat = 0;
+		int tickle = 0;
+		int scratch = 0;
+		
+		for (String b : behaviours.queue) {
+			
+			if (b=="notouch") {
+				notouch += 1;
+			}
+			else if (b=="constant") {
+				constant += 1;
+			}
+			else if (b=="rub") {
+				rub += 1;
+			}
+			else if (b=="pat") {
+				pat += 1;
+			}
+			else if (b=="stroke") {
+				stroke += 1;
+			}
+			else if (b=="tickle") {
+				tickle += 1;
+			}
+			else if (b=="scratch") {
+				scratch += 1;
+			}
+		}
+		int max = 0;
 		String max_b = "notouch";
-//
-//		for (int i = 0; i < 7; i++) {
-//			if (counts[i] > max) {
-//				max = counts[i];
-//				max_b = cclassLabels[i];
-//			}
-//		}
+		if (notouch > max) {
+			max = notouch;
+			max_b = "notouch";
+		}
+		if (constant > max) {
+			max = constant;
+			max_b = "constant";
+		}
+		if (rub > max) {
+			max = rub;
+			max_b = "rub";
+		}
+		if (pat > max) {
+			max = pat;
+			max_b = "pat";
+		}
+		if (stroke > max) {
+			max = stroke;
+			max_b = "stroke";
+		}
+		if (tickle > max) {
+			max = tickle;
+			max_b = "tickle";
+		}
+		if (scratch > max) {
+			max_b = "scratch";
+		}
 		return max_b;
 	}
 	
