@@ -102,6 +102,7 @@ public class BitHandler {
 //				max_b = cclassLabels[i];
 //			}
 //		}
+		System.out.println("Max behaviour count is for: " + max_b);
 		return max_b;
 	}
 	
@@ -158,7 +159,7 @@ public class BitHandler {
 		
 		public void step() {
 			send(sine());
-			System.out.println("Bot is going to " + sine() + " degrees.");
+		//	System.out.println("Bot is going to " + sine() + " degrees.");
 			t = t + hz;
 			if (t > 10000000) {
 				t = 0;

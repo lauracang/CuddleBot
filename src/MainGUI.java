@@ -477,10 +477,10 @@ public class MainGUI extends JFrame {
 							 double predict = gestureModel.classifyInstance(unlabeled.instance(predictInstance));
 				            //double result = gestureModel.classifyInstance(currInstance.instance(predictInstance));
 							//String prediction=currInstance.classAttribute().value((int)result); 
-							 System.out.println("predict val reads: " + predict);
-							System.out.println("The predicted value of instance "+
-							                    Integer.toString(predictInstance)+
-							                    ": "+classLabels[(int)predict ]); 
+						//	 System.out.println("predict val reads: " + predict);
+						//	System.out.println("The predicted value of instance "+
+						//	                    Integer.toString(predictInstance)+
+							//                    ": "+classLabels[(int)predict ]); 
 							   //labeled.instance(i).setClassValue(predict);
 							String labelPredDefault = "Collecting ...";
 							String labelPred = classLabels[(int) predict];
