@@ -32,7 +32,7 @@ public class SensorReader implements SerialPortEventListener {
 																				// X
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
-			"COM6", // Windows
+			"COM20", // Windows
 	};
 	/**
 	 * A BufferedReader which will be fed by a InputStreamReader converting the
@@ -67,6 +67,31 @@ public class SensorReader implements SerialPortEventListener {
 	Object bufferLock = new Object();
 	public static boolean startedCollection = false;
 	
+	private static final Integer[][] weights = {
+        {985, 967, 996, 991, 983, 955, 945, 955, 1022, 1022},
+        {1013, 1009, 1015, 1011, 1012, 1007, 1007, 1008, 1022, 1022},
+        {935, 845, 961, 944, 910, 680, 475, 551, 1021, 1021},
+        {999, 987, 1007, 1004, 998, 978, 968, 976, 1022, 1022},
+        {1017, 1015, 1019, 1019, 1017, 1014, 1012, 1014, 1022, 1022},
+        {1018, 1017, 1020, 1019, 1018, 1016, 1016, 1017, 1022, 1022},
+        {1012, 1007, 1016, 1014, 1012, 1004, 1001, 1003, 1022, 1022},
+        {921, 770, 953, 936, 898, 530, 613, 629, 1021, 1021},
+        {922, 769, 953, 936, 899, 529, 611, 628, 1021, 1021}
+    };
+	
+	private static final Integer[][] weights1 = { 
+		{1019, 1016, 1016, 1018, 1018, 1018, 1018, 1018, 1017, 1023},
+		{1009, 1005, 1000, 1005,  999, 1003, 1002, 1002, 1003,  992},
+		{1023, 1022, 1023, 1023, 1022, 1022, 1023, 1023, 1021, 1023},
+		{1021, 1023, 1021, 1023, 1023, 1023, 1023, 1022, 1022, 1023},
+		{1019, 1020, 1021, 1018, 1018, 1017, 1020, 1019, 1023, 1013},
+		{1016, 1019, 1019, 1016, 1019, 1018, 1018, 1019, 1016, 1014},
+		{1019, 1021, 1016, 1018, 1019, 1020, 1020, 1020, 1013, 1023},
+		{1022, 1020, 1021, 1021, 1020, 1019, 1021, 1020, 1015, 1005},
+		{1020, 1022, 1020, 1022, 1020, 1021, 1022, 1020, 1010, 1023},
+		{1023, 1019, 1020, 1020, 1017, 1019, 1021, 1020, 1017, 1013}
+	};
+		
 	public void start() {
 		
 		CommPortIdentifier portId = null;
@@ -86,7 +111,8 @@ public class SensorReader implements SerialPortEventListener {
 		}
 
 		if (portId == null) {
-			System.out.println("Could not find COM port.");
+			System.out.println("Could not find COM 3 port.");
+			System.out.println(portId);
 			return;
 		}
 
@@ -188,16 +214,20 @@ public class SensorReader implements SerialPortEventListener {
 
 								pixVal = (byteA + byteB * 256);
 								if (pixVal <= 1023 && pixVal >= 0) {
-									//long pixValn = 1023 - pixVal;
-									long pixValn = 1023 - pixVal;
-									framesum = framesum + pixValn; // add to
+								//	long pixValn = (long) (1023 - pixVal - Math.floor(0.1*(1023 - weights[k][j])));
+								//	long pixValn = (long) (0.9 * (1023 - pixVal));
+								//	long pixValn = (long) (1 - (weights[k][j])/1023) * (1023 - pixVal);
+									long pixValn = weights1[j][k] - pixVal;
+								//	long pixValn = 1023 - pixVal;
+									framesum = framesum + pixValn ;
+									System.out.println(framesum);// add to
 																	// frame
 																	// sum
-//									if (pixValn < faker+1) {
-//										frameBufferA[k][j] = 0;
-//									} else {
-//										frameBufferA[k][j] = pixValn - faker;
-//									}// add to
+									if (pixValn < faker+1) {
+										frameBufferA[k][j] = 0;
+									} else {
+										frameBufferA[k][j] = pixValn - faker;
+									}// add to
 																	// frame
 																	// location
 									// if (pixValn > 500) {
@@ -207,7 +237,7 @@ public class SensorReader implements SerialPortEventListener {
 
 									// }
 								} else {
-									frameBufferA[j][k] = 0;
+									frameBufferA[k][j] = 0;
 								}
 								// store polled pixel pressure Value
 

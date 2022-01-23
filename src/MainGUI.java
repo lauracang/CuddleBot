@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.io.BufferedReader;
 import java.io.InputStream;
 
@@ -120,6 +121,8 @@ public class MainGUI extends JFrame {
 	 */
 	public MainGUI() throws Exception {
 		
+		bitHandler = new BitHandler();
+		bitHandler.runit();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1052, 648);
@@ -133,15 +136,17 @@ public class MainGUI extends JFrame {
 		contentPane.add(btnStart);
 		worker = new WorkerRunnable();
 		
-		// Start handling the Bit
-		bitHandler = new BitHandler();
-		
+
 		// START the collection 
 		btnStart.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 				
 		    	mainThread = new Thread(worker);
 		    	mainThread.start();
+		    	// Start handling the Bit
+
+				
+
 		    }
 		});
 		
@@ -227,7 +232,7 @@ public class MainGUI extends JFrame {
 		 System.out.println("fontSizeToUse = " + fontSizeToUse);
 		// Set the label's font size to the newly determined size.
 		lblPrediction.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
-		
+		System.out.println("drawing grid");
 		JLabel gestureLabel = new JLabel("");
 		gestureLabel.setBounds(636, 169, 390, 59);
 		contentPane.add(gestureLabel);
@@ -259,6 +264,7 @@ public class MainGUI extends JFrame {
 	}
 
 	public static void initHeatMap() {
+		System.out.println("build heatmap");
 
 		int width = heatMap.getBounds().width;
 		int height = heatMap.getBounds().height;
@@ -293,8 +299,12 @@ public class MainGUI extends JFrame {
 	}
 
 	private Color getCellColor(long val) {
+		int k = (int)(1.5 * 255 * (val / 1023.0 ));
+		if (k > 255) {
+			k = 255;
+		}
 		//return new Color((int)(127 * (val / 1023.0 ) ),(int)( 127 * (val / 1023.0 ) ), (int)( 255* (val / 1023.0 ) ));
-		return new Color(0,0,(int)( 255* (val / 1023.0 )));
+		return new Color(k, 0, k);
 		// int value = (int) val;
 		// switch (value) {
 		/*if ((0 <= val) && (val < 100)) {
@@ -449,8 +459,8 @@ public class MainGUI extends JFrame {
 						int predictInstance = 0;
 						Classifier gestureModel;
 						String[] classLabels = new String[7];
-						classLabels[0]="constant";
-						classLabels[1]="notouch";
+						classLabels[0]="notouch";
+						classLabels[1]="constant";
 						classLabels[2]="rub";
 						classLabels[3]="pat";
 						classLabels[4]="scratch";
@@ -460,12 +470,12 @@ public class MainGUI extends JFrame {
 						try {
 							//Instances trainData = new Instances(readDataFile(rootPath + "nonenone.arff"));
 							//int cIdx=trainData.numAttributes()-1;
-							//trainData.setClassIndex(cIdx);
+							//trainData.setClassIndex(c);
 							//trainData.add(currInstance.instance(predictInstance));
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "rFnonewotickle.model");
-							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "moving1.model");
+						//	gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "slidingnotick.model");
+							gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
 							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "RFTGL.model");
-							//gestureModel = (Classifier) weka.core.SerializationHelper.read(rootPath + "randomForestnonenone.model");
 
 							Instances unlabeled = new Instances(currInstance);
 							unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
@@ -473,26 +483,37 @@ public class MainGUI extends JFrame {
 							 double predict = gestureModel.classifyInstance(unlabeled.instance(predictInstance));
 				            //double result = gestureModel.classifyInstance(currInstance.instance(predictInstance));
 							//String prediction=currInstance.classAttribute().value((int)result); 
-							System.out.println("predict val reads: " + predict);
-							System.out.println("The predicted value of instance "+
-							                    Integer.toString(predictInstance)+
-							                    ": "+classLabels[(int)predict ]); 
+						//	 System.out.println("predict val reads: " + predict);
+						//	System.out.println("The predicted value of instance "+
+						//	                    Integer.toString(predictInstance)+
+							//                    ": "+classLabels[(int)predict ]); 
 							   //labeled.instance(i).setClassValue(predict);
 							String labelPredDefault = "Collecting ...";
 							String labelPred = classLabels[(int) predict];
 							bitHandler.update(labelPred);
+							
+							bitHandler.step();
+							
+							try {
+								TimeUnit.MILLISECONDS.sleep(20);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 
 							MainGUI.this.gestureLabelPtr.setText(labelPred);
+							
 						//	label.setBounds(701, 234, 500, 500);
 			
 							
-							DatagramSocket dgSocket = new DatagramSocket();
-							InetAddress ipAddr = InetAddress.getByName("10.10.10.1");
-							//InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
-							byte[] bytes = labelPred.getBytes();
-							DatagramPacket dgram = new DatagramPacket(bytes, bytes.length,ipAddr,1234);
-							dgSocket.send(dgram);
-							dgSocket.close();
+//							DatagramSocket dgSocket = new DatagramSocket();
+//							InetAddress ipAddr = InetAddress.getByName("10.10.10.1");
+//							//InetAddress ipAddr = InetAddress.getByName("128.189.204.67");
+//							byte[] bytes = labelPred.getBytes();
+//							DatagramPacket dgram = new DatagramPacket(bytes, bytes.length,ipAddr,1234);
+//							dgSocket.send(dgram);
+//							dgSocket.close();
 							
 							
 

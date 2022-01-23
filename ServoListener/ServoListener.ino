@@ -4,7 +4,7 @@
 #include <Servo.h>
 Servo myservo;
 
-const int servoPin = 9;      // the pin that the LED is attached to
+const int servoPin = 10;      // the pin that the LED is attached to
 
 void setup() {
   // initialize the serial communication:

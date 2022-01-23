@@ -38,7 +38,8 @@ public class SerialWrite implements SerialPortEventListener {
         		"/dev/tty.usbserial-A700e1oo", // Mac OS X
         		"/dev/ttyACM0", // Raspberry Pi
         		"/dev/ttyUSB0", // Linux
-        		"COM10", // Windows
+        		"COM28", // Windows
+        
         };
         
         while(portEnum.hasMoreElements()){  //browse through available ports
@@ -55,7 +56,7 @@ public class SerialWrite implements SerialPortEventListener {
             }
        //if serial port am looking for is not found
         if(portId==null){
-            System.out.println("COM port not found");
+            System.out.println("Bit COM port not found");
             System.exit(1);
         }
         
@@ -71,7 +72,7 @@ public class SerialWrite implements SerialPortEventListener {
          serialPort = (SerialPort)portId.open(this.getClass().getName(),TIME_OUT);   //down cast the comm port to serial port
                                                                                      //give the name of the application
                                                                                      //time to wait
-        System.out.println("Port open succesful: COM10"); 
+        System.out.println("Port open succesful: COM20"); 
         
         //set serial port parameters
 serialPort.setSerialPortParams(BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
@@ -110,7 +111,7 @@ serialPort.setSerialPortParams(BAUD_RATE,SerialPort.DATABITS_8,SerialPort.STOPBI
     //readWrite method
      public void write(short b) {
     	 try {
-			output.write(b);
+			output.write((short)b/2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
